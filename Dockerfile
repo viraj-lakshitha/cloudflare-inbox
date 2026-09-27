@@ -1,4 +1,4 @@
-# Mailflare self-hosted image: Next.js app, SMTP listener, job queues and
+# Open Inbox self-hosted image: Next.js app, SMTP listener, job queues and
 # backups in one Node process. Data lives in /data (mount a volume).
 FROM node:22-bookworm-slim AS base
 WORKDIR /app

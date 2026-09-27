@@ -1,8 +1,8 @@
-<img src="/public/icon-96.png" alt="Mailflare" width="72" />
+<img src="/public/icon-96.png" alt="Open Inbox" width="72" />
 
-# Mailflare
+# Open Inbox
 
-Mailflare is a self-hosted email inbox for custom domains, built on Cloudflare.
+Open Inbox is a self-hosted email inbox for custom domains, built on Cloudflare.
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/hieunc229/mailflare)
 
@@ -19,7 +19,7 @@ Mailflare is a self-hosted email inbox for custom domains, built on Cloudflare.
   <img height="80" src="https://mailflare.co/sponsors/drivemug.png" alt="Drivemug">
 </a>
 
-Want to support the mailflare? <a target="_blank" href="https://store.paymug.co/buy/mailflare-sponsor">Start sponsoring</a>
+Open Inbox is based on [Mailflare](https://github.com/hieunc229/mailflare). Want to support the upstream project? <a target="_blank" href="https://store.paymug.co/buy/mailflare-sponsor">Start sponsoring</a>
 
 ## What you can do
 
@@ -36,11 +36,11 @@ Want to support the mailflare? <a target="_blank" href="https://store.paymug.co/
 
 ## How it works
 
-Mailflare runs in your Cloudflare account. Email Routing delivers incoming messages to the app, while Cloudflare's email service handles outgoing messages. Your mail data stays in your own D1 database and attachments are stored in your own R2 bucket.
+Open Inbox runs in your Cloudflare account. Email Routing delivers incoming messages to the app, while Cloudflare's email service handles outgoing messages. Your mail data stays in your own D1 database and attachments are stored in your own R2 bucket.
 
 ## How much does it cost?
 
-You can setup Mailflare and receive email for free
+You can setup Open Inbox and receive email for free
 
 A [Paid Worker](https://developers.cloudflare.com/workers/platform/pricing/) plan ($5/month) is required to send email (and it's recommend to have a smooth experience)
 
@@ -48,9 +48,9 @@ A [Paid Worker](https://developers.cloudflare.com/workers/platform/pricing/) pla
 
 Getting started takes three steps:
 
-1. **Deploy the app.** Click **Deploy to Cloudflare** and keep the app name as `mailflare`. The app will not work correctly under another Worker name.
+1. **Deploy the app.** Click **Deploy to Cloudflare** and keep the app name as `open-inbox`. The app will not work correctly under another Worker name.
 2. **Complete setup.** Open the deployed app and follow `/setup` to check the installation and create your admin account.
-3. **Connect your domain.** Add a domain managed by the same Cloudflare account. Mailflare configures its email routing and helps you create the first mailbox.
+3. **Connect your domain.** Add a domain managed by the same Cloudflare account. Open Inbox configures its email routing and helps you create the first mailbox.
 
 ⚠️ IMPORTANT: **`CF_TOKEN` is required during deployment**. Create a scoped [Cloudflare API token with the following permissions](https://github.com/hieunc229/mailflare/issues/24#issuecomment-5523686105) for the domains you want to connect.
 - All accounts - Email Sending:Edit, DNS Settings:Edit, Email Routing Addresses:Edit
@@ -60,7 +60,7 @@ See the [deployment guide](docs/deployment.md) for required permissions, manual 
 
 ### Self-host with Docker instead
 
-Mailflare also runs as one container on any server, with SQLite and local files in place of D1 and R2, a built-in SMTP listener for inbound mail (or a small Cloudflare relay Worker if you want to keep MX on Cloudflare), and any SMTP relay or Cloudflare Email Sending for outbound.
+Open Inbox also runs as one container on any server, with SQLite and local files in place of D1 and R2, a built-in SMTP listener for inbound mail (or a small Cloudflare relay Worker if you want to keep MX on Cloudflare), and any SMTP relay or Cloudflare Email Sending for outbound.
 
 ```bash
 cp .env.docker.example .env.docker

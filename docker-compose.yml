@@ -1,7 +1,7 @@
 services:
-  mailflare:
+  open-inbox:
     build: .
-    image: mailflare:local
+    image: open-inbox:local
     restart: unless-stopped
     ports:
       - "3000:3000"   # web app and JMAP

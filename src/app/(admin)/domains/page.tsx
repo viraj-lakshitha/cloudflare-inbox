@@ -223,7 +223,7 @@ export default function DomainsPage() {
             <DialogHeader>
               <DialogTitle>Add domain</DialogTitle>
               <DialogDescription>
-                Connect a Cloudflare zone and choose whether Mailflare should
+                Connect a Cloudflare zone and choose whether Open Inbox should
                 provision Email Sending.
               </DialogDescription>
             </DialogHeader>

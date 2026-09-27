@@ -1,6 +1,6 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "cloudflare-inbox",
+	"name": "open-inbox",
 	"main": "./worker.ts",
 	"compatibility_date": "2026-05-20",
 	"keep_vars": true,
@@ -18,7 +18,7 @@
 	"services": [
 		{
 			"binding": "WORKER_SELF_REFERENCE",
-			"service": "cloudflare-inbox",
+			"service": "open-inbox",
 		},
 	],
 	"durable_objects": {
@@ -69,44 +69,44 @@
 	"d1_databases": [
 		{
 			"binding": "DB",
-			"database_name": "cloudflare-inbox",
+			"database_name": "open-inbox",
 			"migrations_dir": "drizzle/migrations","database_id": "17545943-f3b3-493d-88b9-da129d846495",
 		},
 	],
 	"r2_buckets": [
 		{
 			"binding": "BUCKET",
-			"bucket_name": "cloudflare-inbox-assets","preview_bucket_name": "cloudflare-inbox-assets",
+			"bucket_name": "open-inbox-assets","preview_bucket_name": "open-inbox-assets",
 		},
 	],
 	"queues": {
 		"producers": [
 			{
 				"binding": "INBOUND_QUEUE",
-				"queue": "cloudflare-inbox-inbound",
+				"queue": "open-inbox-inbound",
 			},
 			{
 				"binding": "OUTBOUND_QUEUE",
-				"queue": "cloudflare-inbox-outbound",
+				"queue": "open-inbox-outbound",
 			},
 			{
 				"binding": "AGENT_QUEUE",
-				"queue": "cloudflare-inbox-agent",
+				"queue": "open-inbox-agent",
 			},
 		],
 		"consumers": [
 			{
-				"queue": "cloudflare-inbox-inbound",
+				"queue": "open-inbox-inbound",
 				"max_batch_size": 5,
 				"max_retries": 3,
 			},
 			{
-				"queue": "cloudflare-inbox-outbound",
+				"queue": "open-inbox-outbound",
 				"max_batch_size": 5,
 				"max_retries": 3,
 			},
 			{
-				"queue": "cloudflare-inbox-agent",
+				"queue": "open-inbox-agent",
 				"max_batch_size": 1,
 				"max_retries": 3,
 			},

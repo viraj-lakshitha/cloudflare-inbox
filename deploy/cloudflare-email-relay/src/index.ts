@@ -1,5 +1,5 @@
 /**
- * Mailflare email relay. Keeps MX on Cloudflare Email Routing while the app
+ * Open Inbox email relay. Keeps MX on Cloudflare Email Routing while the app
  * runs elsewhere: every message routed to this Worker is posted to the
  * self-hosted server, which answers with the routing decision so reject and
  * forward still happen here, on the live message.
@@ -39,12 +39,12 @@ export default {
 				},
 				body: raw,
 			});
-			if (!response.ok) throw new Error(`Mailflare answered ${response.status}`);
+			if (!response.ok) throw new Error(`Open Inbox answered ${response.status}`);
 			decision = (await response.json()) as Decision;
 		} catch (error) {
-			console.error("Relay to Mailflare failed", error);
+			console.error("Relay to Open Inbox failed", error);
 			// A rejection with a temporary-sounding reason makes most senders retry later.
-			message.setReject("Mailflare is temporarily unavailable, please retry");
+			message.setReject("Open Inbox is temporarily unavailable, please retry");
 			return;
 		}
 

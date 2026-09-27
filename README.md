@@ -1,25 +1,8 @@
-<img src="/public/icon-96.png" alt="Open Inbox" width="72" />
-
 # Open Inbox
 
 Open Inbox is a self-hosted email inbox for custom domains, built on Cloudflare.
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/viraj-lakshitha/open-inbox)
-
-## Screenshots
-
-| ![Inbox](/screenshots/1.png)<br>Inbox | ![Manage domains](/screenshots/2.png)<br>Manage domains | ![Manage inboxes](/screenshots/3.png)<br>Manage inboxes |
-| --- | --- | --- |
-
-### Upstream Mailflare sponsors
-
-<a target="_blank" href="https://sequenzy.com/?ref=hieunc229/mailflare">
-  <img height="80" src="/sponsors/sequenzy.png" alt="Sequenzy">
-</a>  <a target="_blank" href="https://drivemug.com/?ref=hieunc229/mailflare">
-  <img height="80" src="https://mailflare.co/sponsors/drivemug.png" alt="Drivemug">
-</a>
-
-Open Inbox is based on [Mailflare](https://github.com/hieunc229/mailflare). Want to support the upstream project? <a target="_blank" href="https://store.paymug.co/buy/mailflare-sponsor">Start sponsoring</a>
 
 ## What you can do
 
@@ -52,7 +35,7 @@ Getting started takes three steps:
 2. **Complete setup.** Open the deployed app and follow `/setup` to check the installation and create your admin account.
 3. **Connect your domain.** Add a domain managed by the same Cloudflare account. Open Inbox configures its email routing and helps you create the first mailbox.
 
-⚠️ IMPORTANT: **`CF_TOKEN` is required during deployment**. Create a scoped [Cloudflare API token](https://dash.cloudflare.com/profile/api-tokens) with the following permissions for the domains you want to connect.
+IMPORTANT: **`CF_TOKEN` is required during deployment**. Create a scoped [Cloudflare API token](https://dash.cloudflare.com/profile/api-tokens) with the following permissions for the domains you want to connect.
 - All accounts - Email Sending:Edit, DNS Settings:Edit, Email Routing Addresses:Edit
 - All zones - DNS Settings:Edit, Email Routing Rules:Edit, Zone Settings:Edit, DNS:Edit
 

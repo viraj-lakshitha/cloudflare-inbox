@@ -52,7 +52,7 @@ Getting started takes three steps:
 2. **Complete setup.** Open the deployed app and follow `/setup` to check the installation and create your admin account.
 3. **Connect your domain.** Add a domain managed by the same Cloudflare account. Open Inbox configures its email routing and helps you create the first mailbox.
 
-⚠️ IMPORTANT: **`CF_TOKEN` is required during deployment**. Create a scoped [Cloudflare API token with the following permissions](https://github.com/hieunc229/mailflare/issues/24#issuecomment-5523686105) for the domains you want to connect.
+⚠️ IMPORTANT: **`CF_TOKEN` is required during deployment**. Create a scoped [Cloudflare API token](https://dash.cloudflare.com/profile/api-tokens) with the following permissions for the domains you want to connect.
 - All accounts - Email Sending:Edit, DNS Settings:Edit, Email Routing Addresses:Edit
 - All zones - DNS Settings:Edit, Email Routing Rules:Edit, Zone Settings:Edit, DNS:Edit
 

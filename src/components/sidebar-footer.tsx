@@ -35,7 +35,7 @@ export function SidebarFooter() {
           className="hover:underline text-neutral-500"
           rel="noreferrer"
         >
-          Mailflare v{packageJson.version}
+          Open Inbox v{packageJson.version}
         </a>
       </p>
     </div>

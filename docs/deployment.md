@@ -4,37 +4,37 @@ This guide covers Cloudflare deployment, runtime configuration, database backups
 
 ## Overview
 
-Set up Mailflare in three steps:
+Set up Open Inbox in three steps:
 
-1. **Deploy the app:** use the Deploy to Cloudflare button, set the app name to `mailflare`, and provide the required `CF_TOKEN`.
+1. **Deploy the app:** use the Deploy to Cloudflare button, set the app name to `open-inbox`, and provide the required `CF_TOKEN`.
 2. **Complete setup:** open the deployed app and follow `/setup` to check the installation and create the first admin account.
-3. **Connect your domain:** add a domain managed by the same Cloudflare account. Mailflare configures email routing and, when available and selected, email sending before helping you create the first mailbox.
+3. **Connect your domain:** add a domain managed by the same Cloudflare account. Open Inbox configures email routing and, when available and selected, email sending before helping you create the first mailbox.
 
-The Worker name must remain `mailflare`. Before starting, create the required `CF_TOKEN` with **Zone Read**, **DNS Edit**, **Email Routing Edit**, and **Email Routing Rules Write** permissions for every domain you plan to connect. DNS Edit lets the confirmed setup flow replace conflicting MX records. Add **Email Sending Edit** when Mailflare should send email; it is optional for receive-only domains.
+The Worker name must remain `open-inbox`. Before starting, create the required `CF_TOKEN` with **Zone Read**, **DNS Edit**, **Email Routing Edit**, and **Email Routing Rules Write** permissions for every domain you plan to connect. DNS Edit lets the confirmed setup flow replace conflicting MX records. Add **Email Sending Edit** when Open Inbox should send email; it is optional for receive-only domains.
 
-## Step 1: Deploy mailflare
+## Step 1: Deploy Open Inbox
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/hieunc229/mailflare)
 
 1. Click **Deploy to Cloudflare** above and sign in to Cloudflare if prompted.
 2. Choose the Cloudflare account that owns the domain you want to use.
-3. Set the app name to exactly `mailflare`. Do not rename it.
+3. Set the app name to exactly `open-inbox`. Do not rename it.
 4. Add `CF_TOKEN` when Cloudflare asks for the app's runtime variables or secrets.
 5. Start the deployment and wait for Cloudflare to finish provisioning and deploying the Worker.
 
 ### Required configuration
 
-Mailflare requires this runtime value:
+Open Inbox requires this runtime value:
 
 - `CF_TOKEN` — a scoped Cloudflare API token with **Zone Read**, **DNS Edit**, **Email Routing Edit**, and **Email Routing Rules Write** access for the domains you will connect. Add **Email Sending Edit** to enable outbound mail. This is separate from the token Cloudflare uses to deploy the app.
 
 Paste only the token secret into `CF_TOKEN`. Do not include the word `Bearer` and do not use the token ID. The token must belong to the same Cloudflare account as the domains you connect.
 
-## Step 2: Complete mailflare setup
+## Step 2: Complete Open Inbox setup
 
-1. Open the URL of the deployed `mailflare` Worker.
-2. Go to `/setup` if Mailflare does not take you there automatically.
-3. Let Mailflare check the required Cloudflare configuration and initialize the empty D1 database.
+1. Open the URL of the deployed `open-inbox` Worker.
+2. Go to `/setup` if Open Inbox does not take you there automatically.
+3. Let Open Inbox check the required Cloudflare configuration and initialize the empty D1 database.
 4. Create the first admin account when prompted.
 
 Setup applies the committed migrations through the Worker's D1 binding before creating the first admin account.
@@ -42,11 +42,11 @@ Setup applies the committed migrations through the Worker's D1 binding before cr
 ## Step 3: Connect your primary domain and create an account
 
 1. Enter a domain that already uses Cloudflare DNS on the same account as `CF_TOKEN`.
-2. Continue while Mailflare enables Email Routing and configures the required routing and sending DNS.
+2. Continue while Open Inbox enables Email Routing and configures the required routing and sending DNS.
 3. Choose the address for your first mailbox and finish setup.
 4. Open the inbox and send a test message to the new address.
 
-To connect more domains later, open **Admin → Domains**, select **New domain**, and enter the hostname. Mailflare configures Email Routing and Email Sending automatically.
+To connect more domains later, open **Admin → Domains**, select **New domain**, and enter the hostname. Open Inbox configures Email Routing and Email Sending automatically.
 
 Your inbox should be ready to send and receive emails
 
@@ -73,23 +73,23 @@ Remote migrations require the target account's `database_id` in your local `wran
 
 ## Database backups
 
-Mailflare exports its D1 records as JSON and stores the backup files in the configured R2 bucket. A cron trigger in `wrangler.jsonc` runs daily at 02:00 UTC and applies the schedule selected under **Admin → Backups**. Manual backups run the same record export directly from the admin API.
+Open Inbox exports its D1 records as JSON and stores the backup files in the configured R2 bucket. A cron trigger in `wrangler.jsonc` runs daily at 02:00 UTC and applies the schedule selected under **Admin → Backups**. Manual backups run the same record export directly from the admin API.
 
 Deploy the complete Worker with `npm run deploy` whenever the cron trigger is added or changed.
 
-After upgrading an existing installation and confirming the cron trigger is active, the old Workflow can be removed with `npx wrangler workflows delete mailflare-database-backup`. Deleting it also removes its historical Workflow instances; backup files in R2 and rows in Mailflare's backup history are unaffected.
+After upgrading an existing installation and confirming the cron trigger is active, the old Workflow can be removed with `npx wrangler workflows delete mailflare-database-backup`. Deleting it also removes its historical Workflow instances; backup files in R2 and rows in Open Inbox's backup history are unaffected.
 
 ## Email assistant and MCP
 
-The assistant uses the Workers AI `AI` binding and a separate `mailflare-agent` queue. Provision the queue in the Cloudflare account before deploying a configuration that declares it, and apply migration `0032_add_agentic_mail.sql` before opening the new UI on an existing database. The five-minute cron recovers pending auto-draft work; the 02:00 UTC cron still runs backups.
+The assistant uses the Workers AI `AI` binding and a separate `open-inbox-agent` queue. Provision the queue in the Cloudflare account before deploying a configuration that declares it, and apply migration `0032_add_agentic_mail.sql` before opening the new UI on an existing database. The five-minute cron recovers pending auto-draft work; the 02:00 UTC cron still runs backups.
 
 In the inbox, open **Assistant → Settings** for a mailbox, select its reviewer, and enable the assistant. Auto-drafting is a separate opt-in. It skips spam, automated mail, and mailboxes with out-of-office replies enabled. Generated replies appear as ordinary drafts assigned to the reviewer. The reviewer must open the draft and confirm the exact content before delivery.
 
-The assistant panel no longer exposes MCP key management. External MCP clients can still connect to `https://<your-mailflare-origin>/mcp` with a mailbox-scoped Bearer key created through the authenticated `/api/agent/mcp-keys` endpoint. Keys can be listed and revoked through that endpoint; a new key is shown only once. The server uses Streamable HTTP and accepts clients that can set a Bearer header. Its `request_send` tool returns a Mailflare review URL; the MCP key cannot confirm or deliver messages directly. MCP does not require Workers AI for read and draft tools.
+The assistant panel no longer exposes MCP key management. External MCP clients can still connect to `https://<your-open-inbox-origin>/mcp` with a mailbox-scoped Bearer key created through the authenticated `/api/agent/mcp-keys` endpoint. Keys can be listed and revoked through that endpoint; a new key is shown only once. The server uses Streamable HTTP and accepts clients that can set a Bearer header. Its `request_send` tool returns a Open Inbox review URL; the MCP key cannot confirm or deliver messages directly. MCP does not require Workers AI for read and draft tools.
 
-## Updating Mailflare
+## Updating Open Inbox
 
-The **Update Mailflare** button in the admin dashboard dispatches `.github/workflows/deploy-update.yml` in the installation repository. The workflow replaces the installation branch's complete tracked tree with the latest upstream source, commits that replacement, and pushes it. This avoids merge conflicts between independently created installation and upstream histories. Target-only committed files and code changes are intentionally removed; repository variables, secrets, and other GitHub or Cloudflare configuration remain unchanged. A connected Cloudflare Git integration then builds and deploys the change.
+The **Update Open Inbox** button in the admin dashboard dispatches `.github/workflows/deploy-update.yml` in the installation repository. The workflow replaces the installation branch's complete tracked tree with the latest upstream source, commits that replacement, and pushes it. This avoids merge conflicts between independently created installation and upstream histories. Target-only committed files and code changes are intentionally removed; repository variables, secrets, and other GitHub or Cloudflare configuration remain unchanged. A connected Cloudflare Git integration then builds and deploys the change.
 
 ### Auto update
 
@@ -97,7 +97,7 @@ Create a fine-grained personal access token for the installation repository with
 
 | Permission | Access | Used for |
 | --- | --- | --- |
-| Actions | Read and write | Dispatching `deploy-update.yml` from the Mailflare admin dashboard |
+| Actions | Read and write | Dispatching `deploy-update.yml` from the Open Inbox admin dashboard |
 | Contents | Read and write | Committing and pushing the upstream source into the installation repository |
 | Workflows | Read and write | Replacing files inside `.github/workflows` during an update |
 
@@ -113,9 +113,9 @@ Configure the token and repository details in both Cloudflare and GitHub:
 
 The same token can be used for `GITHUB_UPDATE_TOKEN` and `MAILFLARE_UPDATE_TOKEN` when it has all three permissions above. Keep both values secret and limit the token's repository access to the installation repository.
 
-Make sure `.github/workflows/deploy-update.yml` exists on the installation branch. If it is missing, create the file and copy its contents from the [canonical Mailflare update workflow](https://github.com/hieunc229/mailflare/blob/main/.github/workflows/deploy-update.yml). If an older installation has a different updater, replace it with the latest canonical workflow once. A running workflow cannot create or replace itself until the current workflow has been installed manually.
+Make sure `.github/workflows/deploy-update.yml` exists on the installation branch. If it is missing, create the file and copy its contents from the [canonical Open Inbox update workflow](https://github.com/hieunc229/mailflare/blob/main/.github/workflows/deploy-update.yml). If an older installation has a different updater, replace it with the latest canonical workflow once. A running workflow cannot create or replace itself until the current workflow has been installed manually.
 
-After the GitHub Action completes successfully, wait for the connected Cloudflare deployment to finish before refreshing Mailflare or applying pending database migrations. The workflow updates the repository first; the new application version is not live until Cloudflare completes its deployment.
+After the GitHub Action completes successfully, wait for the connected Cloudflare deployment to finish before refreshing Open Inbox or applying pending database migrations. The workflow updates the repository first; the new application version is not live until Cloudflare completes its deployment.
 
 Deployment and database migration are separate. After Cloudflare deploys a repository push or an admin-triggered update, open or refresh **Admin settings**. The application update card shows any pending database migrations. Select **Update database** to apply them through the Worker's D1 binding. The same runner initializes a new database during setup.
 
@@ -129,4 +129,4 @@ When adding a schema change, create a new uniquely named SQL file in `drizzle/mi
 
 ## Branding license
 
-Activate a purchased Pro or Team key from **Admin → Licenses**. Mailflare sends the key to Paymug and stores only a one-way hash and the activation state. Apply all D1 migrations before activating a license.
+Activate a purchased Pro or Team key from **Admin → Licenses**. Open Inbox sends the key to Paymug and stores only a one-way hash and the activation state. Apply all D1 migrations before activating a license.

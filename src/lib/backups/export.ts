@@ -79,8 +79,8 @@ export async function restoreDatabaseRecords(db: D1Database, content: ArrayBuffe
 
 function parseDatabaseBackup(content: ArrayBuffer): DatabaseBackupDocument {
 	let value: unknown;
-	try { value = JSON.parse(new TextDecoder().decode(content)); } catch { throw new Error("The selected file is not a valid Mailflare backup"); }
-	if (!isDatabaseBackupDocument(value)) throw new Error("The selected file is not a valid Mailflare backup");
+	try { value = JSON.parse(new TextDecoder().decode(content)); } catch { throw new Error("The selected file is not a valid Open Inbox backup"); }
+	if (!isDatabaseBackupDocument(value)) throw new Error("The selected file is not a valid Open Inbox backup");
 	return value;
 }
 

@@ -57,7 +57,7 @@ export async function exportDatabaseRecords(db: D1Database, excludedGroups: Back
 		const result = await db.prepare(`SELECT * FROM ${table}`).all<DatabaseRecord>();
 		tables[table] = result.results;
 	}
-	const document: DatabaseBackupDocument = { format: "mailflare-database-backup", version: 1, createdAt: new Date().toISOString(), includedTables, tables };
+	const document: DatabaseBackupDocument = { format: "open-inbox-database-backup", version: 1, createdAt: new Date().toISOString(), includedTables, tables };
 	return new TextEncoder().encode(JSON.stringify(document));
 }
 
@@ -87,7 +87,7 @@ function parseDatabaseBackup(content: ArrayBuffer): DatabaseBackupDocument {
 function isDatabaseBackupDocument(value: unknown): value is DatabaseBackupDocument {
 	if (!value || typeof value !== "object") return false;
 	const document = value as Partial<DatabaseBackupDocument>;
-	if (document.format !== "mailflare-database-backup" || document.version !== 1 || !document.tables) return false;
+	if (((document.format as string) !== "open-inbox-database-backup" && (document.format as string) !== "mailflare-database-backup") || document.version !== 1 || !document.tables) return false;
 	if (document.includedTables) {
 		if (!Array.isArray(document.includedTables) || !document.includedTables.length || new Set(document.includedTables).size !== document.includedTables.length) return false;
 		if (!document.includedTables.every((table) => BACKUP_TABLES.includes(table) && Array.isArray(document.tables?.[table]))) return false;

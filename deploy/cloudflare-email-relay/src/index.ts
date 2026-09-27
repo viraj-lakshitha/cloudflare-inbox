@@ -6,7 +6,7 @@
  *
  * Route the domain's catch-all (and any address rules) to this Worker.
  */
-type Env = { MAILFLARE_URL: string; INBOUND_WEBHOOK_SECRET: string };
+type Env = { OPEN_INBOX_URL: string; INBOUND_WEBHOOK_SECRET: string };
 
 type Decision =
 	| { action: "reject"; reason: string }
@@ -28,14 +28,14 @@ export default {
 		const headers = Object.fromEntries(message.headers);
 		let decision: Decision;
 		try {
-			const response = await fetch(`${env.MAILFLARE_URL.replace(/\/$/, "")}/api/inbound`, {
+			const response = await fetch(`${env.OPEN_INBOX_URL.replace(/\/$/, "")}/api/inbound`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "message/rfc822",
-					"X-Mailflare-From": message.from,
-					"X-Mailflare-To": message.to,
-					"X-Mailflare-Headers": JSON.stringify(headers),
-					"X-Mailflare-Signature": await sign(env.INBOUND_WEBHOOK_SECRET, raw, message.from, message.to),
+					"X-Open-Inbox-From": message.from,
+					"X-Open-Inbox-To": message.to,
+					"X-Open-Inbox-Headers": JSON.stringify(headers),
+					"X-Open-Inbox-Signature": await sign(env.INBOUND_WEBHOOK_SECRET, raw, message.from, message.to),
 				},
 				body: raw,
 			});

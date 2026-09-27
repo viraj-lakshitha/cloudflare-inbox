@@ -6,8 +6,8 @@ import type {
 	AuthSessionResponse,
 } from "./client-types";
 
-const SESSION_STORAGE_KEY = "mailflare-session-token";
-export const AUTH_SESSION_CHANGED_EVENT = "mailflare:auth-session-changed";
+const SESSION_STORAGE_KEY = "open-inbox-session-token";
+export const AUTH_SESSION_CHANGED_EVENT = "open-inbox:auth-session-changed";
 
 function dispatchAuthSessionChanged(authenticated: boolean): void {
 	if (typeof window === "undefined") return;

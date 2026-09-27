@@ -3,7 +3,7 @@
 A small Cloudflare Worker for self-hosted Open Inbox installs that want to keep
 receiving mail through Cloudflare Email Routing (no port 25, no MX changes).
 
-1. `npm install`, then `npx wrangler secret put MAILFLARE_URL` (your server's
+1. `npm install`, then `npx wrangler secret put OPEN_INBOX_URL` (your server's
    public URL, e.g. `https://mail.example.com`) and
    `npx wrangler secret put INBOUND_WEBHOOK_SECRET` (the same value as in the
    server's `.env.docker`).

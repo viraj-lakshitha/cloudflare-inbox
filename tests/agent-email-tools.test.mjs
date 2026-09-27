@@ -8,7 +8,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { build } from "esbuild";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const bundleDirectory = mkdtempSync(join(root, "node_modules", "mailflare-agent-bundle-"));
+const bundleDirectory = mkdtempSync(join(root, "node_modules", "open-inbox-agent-bundle-"));
 await build({
 	stdin: {
 		contents: `
@@ -37,9 +37,9 @@ const { SqliteDatabase, applyMigrations, createAgentChatStream, runEmailTool, re
 
 test("assistant reads mail, creates an editable reply draft, and invokes tools through chat", async (t) => {
 	t.after(() => rmSync(bundleDirectory, { recursive: true, force: true }));
-	const directory = mkdtempSync(join(tmpdir(), "mailflare-agent-"));
+	const directory = mkdtempSync(join(tmpdir(), "open-inbox-agent-"));
 	t.after(() => rmSync(directory, { recursive: true, force: true }));
-	const database = new SqliteDatabase(join(directory, "mailflare.sqlite"));
+	const database = new SqliteDatabase(join(directory, "open-inbox.sqlite"));
 	t.after(() => database.db.close());
 	await applyMigrations(database, join(process.cwd(), "drizzle", "migrations"));
 	database.db.exec(`
@@ -108,10 +108,10 @@ test("assistant reads mail, creates an editable reply draft, and invokes tools t
 	const draftEvents = (await new Response(drafted.stream).text()).trim().split("\n").map((line) => JSON.parse(line));
 	assert.ok(draftEvents.some((event) => event.type === "tool" && event.name === "draft_reply" && event.state === "complete" && event.result.draftId));
 	assert.equal(database.db.prepare("SELECT count(*) AS count FROM agent_send_approvals").get().count, 0);
-	globalThis.__mailflareNodeEnv = env;
-	t.after(() => { delete globalThis.__mailflareNodeEnv; });
+	globalThis.__openInboxNodeEnv = env;
+	t.after(() => { delete globalThis.__openInboxNodeEnv; });
 	const token = await createSession(env, "user-1");
-	const request = new Request("http://mailflare.local/api/agent/chat", { method: "POST", headers: { Origin: "http://mailflare.local", Authorization: `Bearer ${token}`, "Content-Type": "application/json" }, body: JSON.stringify({ mailboxId: "mailbox-1", text: "What arrived in my inbox?" }) });
+	const request = new Request("http://open-inbox.local/api/agent/chat", { method: "POST", headers: { Origin: "http://open-inbox.local", Authorization: `Bearer ${token}`, "Content-Type": "application/json" }, body: JSON.stringify({ mailboxId: "mailbox-1", text: "What arrived in my inbox?" }) });
 	const routeResponse = await postAgentChat(request);
 	assert.equal(routeResponse.status, 200);
 	const routeEvents = (await routeResponse.text()).trim().split("\n").map((line) => JSON.parse(line));

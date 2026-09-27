@@ -13,7 +13,7 @@ import { getUserFromSession } from "./src/lib/auth/session";
 import { getSessionTokenFromRequest } from "./src/lib/realtime/utils";
 import {
 	getAccountForwardingDestination,
-	MAILFLARE_FORWARDED_HEADER,
+	OPEN_INBOX_FORWARDED_HEADER,
 } from "./src/lib/email/account-forwarding";
 import { runScheduledDatabaseBackup } from "./src/lib/backups/runner";
 import { processAgentDraftJob } from "./src/lib/agent/jobs/utils";
@@ -34,7 +34,7 @@ export default {
 			}
 
 			const hub = env.REALTIME.getByName(user.id);
-			return hub.fetch(new Request("https://mailflare-realtime/connect", request));
+			return hub.fetch(new Request("https://open-inbox-realtime/connect", request));
 		}
 
 		return nextHandler.fetch(request, env, ctx);
@@ -58,7 +58,7 @@ export default {
 				if (forwarded && !decision.keepCopy) return;
 			}
 
-			if (message.headers.get(MAILFLARE_FORWARDED_HEADER) !== "1") {
+			if (message.headers.get(OPEN_INBOX_FORWARDED_HEADER) !== "1") {
 				const forwardingDestination = await getAccountForwardingDestination(env, message.to);
 				if (forwardingDestination) {
 					await forwardMessage(message, forwardingDestination);

@@ -14,6 +14,6 @@ await build({
 	tsconfig: "tsconfig.json",
 	external: ["next", "better-sqlite3", "nodemailer", "smtp-server", "ws", "react", "react-dom", "@opennextjs/cloudflare", "cloudflare:workers"],
 	banner: { js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" },
-	define: { "process.env.MAILFLARE_RUNTIME": '"node"' },
+	define: { "process.env.OPEN_INBOX_RUNTIME": '"node"' },
 	logLevel: "info",
 });

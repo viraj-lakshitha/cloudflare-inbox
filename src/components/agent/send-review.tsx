@@ -15,7 +15,7 @@ export function SendReview({ approvalId, snapshot, onClose, onSent }: SendReview
 			const response = await authFetch(`/api/agent/approvals/${approvalId}/confirm`, { method: "POST" });
 			const result = await response.json() as { status?: string; messageId?: string; error?: string };
 			if (!response.ok || result.status !== "sent" || !result.messageId) throw new Error(result.error || "Delivery needs review");
-			window.dispatchEvent(new Event("mailflare:messages-changed"));
+			window.dispatchEvent(new Event("open-inbox:messages-changed"));
 			onSent?.(result.messageId);
 		} catch (cause) { setError(cause instanceof Error ? cause.message : "Could not send"); }
 		finally { setBusy(false); }

@@ -39,7 +39,7 @@ export function SidebarProvider({ children, expandedWidth = 260 }: SidebarProvid
 				const userId = data?.user?.id;
 					if (!userId) return;
 					setUserId(userId);
-					const key = `mailflare-sidebar-minimal:${userId}`;
+					const key = `open-inbox-sidebar-minimal:${userId}`;
 				setStorageKey(key);
 				try {
 						const storedMinimal = localStorage.getItem(key);

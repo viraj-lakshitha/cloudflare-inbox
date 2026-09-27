@@ -76,13 +76,13 @@ export function markAgentDraftSent(messages: AgentMessage[], draftId: string): A
 }
 
 export function readAgentConversationId(mailboxId: string): string | null {
-	try { return localStorage.getItem(`mailflare-assistant-conversation:${mailboxId}`); }
+	try { return localStorage.getItem(`open-inbox-assistant-conversation:${mailboxId}`); }
 	catch { return null; }
 }
 
 export function saveAgentConversationId(mailboxId: string, conversationId: string | null) {
 	try {
-		const key = `mailflare-assistant-conversation:${mailboxId}`;
+		const key = `open-inbox-assistant-conversation:${mailboxId}`;
 		if (conversationId) localStorage.setItem(key, conversationId);
 		else localStorage.removeItem(key);
 	} catch { /* Storage is optional. */ }

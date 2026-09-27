@@ -8,13 +8,13 @@ realtime WebSocket, backup schedule and an SMTP listener for inbound mail.
 ## Quick start
 
 ```bash
-git clone https://github.com/hieunc229/mailflare && cd mailflare
+git clone https://github.com/viraj-lakshitha/open-inbox && cd open-inbox
 cp .env.docker.example .env.docker      # edit: how to receive and send mail
 docker compose up -d --build
 ```
 
 Open `http://your-host:3000/setup`, create the admin account and add your
-domain. All data lives in the `mailflare-data` volume (`/data` in the
+domain. All data lives in the `open-inbox-data` volume (`/data` in the
 container): the SQLite database, raw messages, attachments and backups.
 
 Behind a reverse proxy, set `APP_URL=https://mail.example.com` so links in
@@ -106,7 +106,7 @@ The MCP endpoint is `/mcp`. Create a dedicated mailbox-scoped Bearer key in **As
 ```bash
 npm ci
 npm run build:node
-MAILFLARE_RUNTIME=node NODE_ENV=production DATA_DIR=./data node dist/server.mjs
+OPEN_INBOX_RUNTIME=node NODE_ENV=production DATA_DIR=./data node dist/server.mjs
 ```
 
 Port 25 needs root or a capability (`setcap cap_net_bind_service=+ep`); use

@@ -30,7 +30,7 @@ export function SidebarFooter() {
       <p className="px-1 text-[11px] text-neutral-400">
         Powered by{" "}
         <a
-          href={`https://mailflare.co/?ref=${typeof window !== "undefined" ? location.hostname : ""}&v=${packageJson.version}`}
+          href="https://github.com/viraj-lakshitha/open-inbox"
           target="_blank"
           className="hover:underline text-neutral-500"
           rel="noreferrer"

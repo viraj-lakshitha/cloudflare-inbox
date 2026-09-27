@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
-const STORAGE_KEY = "mailflare-latest-messages-first";
-const CHANGE_EVENT = "mailflare:latest-messages-first-changed";
+const STORAGE_KEY = "open-inbox-latest-messages-first";
+const CHANGE_EVENT = "open-inbox:latest-messages-first-changed";
 
 function readStored(): boolean {
 	try {

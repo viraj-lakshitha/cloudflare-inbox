@@ -37,8 +37,8 @@ export function ApiKeysSettings() {
 		let cancelled = false;
 		const refresh = () => void loadManagedApiKeys().then((items) => { if (!cancelled) { setKeys(items); setError(null); } }).catch((cause) => { if (!cancelled) setError(cause instanceof Error ? cause.message : "Could not load API keys"); }).finally(() => { if (!cancelled) setLoading(false); });
 		refresh();
-		window.addEventListener("mailflare:api-keys-changed", refresh);
-		return () => { cancelled = true; window.removeEventListener("mailflare:api-keys-changed", refresh); };
+		window.addEventListener("open-inbox:api-keys-changed", refresh);
+		return () => { cancelled = true; window.removeEventListener("open-inbox:api-keys-changed", refresh); };
 	}, []);
 
 	async function create(event: React.FormEvent) {

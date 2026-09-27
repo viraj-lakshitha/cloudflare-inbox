@@ -24,10 +24,10 @@ export function useMessageThread(messageId: string, threadId: string | null | un
 			}
 		}
 		void load();
-		window.addEventListener("mailflare:messages-changed", load);
+		window.addEventListener("open-inbox:messages-changed", load);
 		return () => {
 			cancelled = true;
-			window.removeEventListener("mailflare:messages-changed", load);
+			window.removeEventListener("open-inbox:messages-changed", load);
 		};
 	}, [messageId, threadId]);
 

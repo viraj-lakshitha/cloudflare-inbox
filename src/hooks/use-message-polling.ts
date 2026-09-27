@@ -29,7 +29,7 @@ export function useMessagePolling(): MessageRealtimeState {
 		let stopped = false;
 
 		function dispatchMessagesChanged() {
-			window.dispatchEvent(new Event("mailflare:messages-changed"));
+			window.dispatchEvent(new Event("open-inbox:messages-changed"));
 		}
 
 		function clearConnectionTimers() {
@@ -73,7 +73,7 @@ export function useMessagePolling(): MessageRealtimeState {
 				try {
 					const payload = JSON.parse(message.data) as { type?: string; draftId?: string; mailboxId?: string };
 					if (payload.type === "agent_draft" && payload.draftId && payload.mailboxId) {
-						window.dispatchEvent(new CustomEvent("mailflare:agent-draft", { detail: payload }));
+						window.dispatchEvent(new CustomEvent("open-inbox:agent-draft", { detail: payload }));
 						dispatchMessagesChanged();
 						return;
 					}

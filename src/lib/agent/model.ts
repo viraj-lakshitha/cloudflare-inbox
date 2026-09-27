@@ -9,7 +9,7 @@ export async function getAgentModel(env: CloudflareEnv, requestedModel?: string 
 	const details = { modelId, provider: config.provider === "cloudflare" ? "cloudflare" : config.preset, rates: config.rates[modelId] };
 	if (config.provider === "cloudflare") return env.AI ? { model: createWorkersAI({ binding: env.AI })(modelId), ...details } : null;
 	if (config.baseUrl && config.apiKey && modelId) {
-		const provider = createOpenAICompatible({ name: "mailflare", baseURL: config.baseUrl, apiKey: config.apiKey });
+		const provider = createOpenAICompatible({ name: "open-inbox", baseURL: config.baseUrl, apiKey: config.apiKey });
 		return { model: provider.chatModel(modelId), ...details };
 	}
 	return null;

@@ -20,9 +20,9 @@ function output(value: unknown, isError = false) {
 	return { content: [{ type: "text" as const, text: JSON.stringify(value) }], isError };
 }
 
-export function createMailflareMcpHandler(env: CloudflareEnv, principal: McpPrincipal, baseUrl: string, authorization: string) {
+export function createOpenInboxMcpHandler(env: CloudflareEnv, principal: McpPrincipal, baseUrl: string, authorization: string) {
 	return createMcpHandler(() => {
-		const server = new McpServer({ name: "mailflare", version: "0.1.0" });
+		const server = new McpServer({ name: "open-inbox", version: "0.1.0" });
 		if (principal.scopes.some((scope) => scope.startsWith("mcp:"))) {
 		server.registerTool("list_mailboxes", { description: "List mailboxes allowed for this key", inputSchema: z.object({}) }, async () => {
 			if (!principal.scopes.includes("mcp:read")) return output({ error: "Permission denied" }, true);

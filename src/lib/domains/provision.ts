@@ -17,7 +17,7 @@ import { rollbackDomainProvisioning } from "@/lib/domains/rollback";
 
 /** Node/Docker has no Email Worker; a catch-all PUT to one 404s (CF 2016). */
 export function shouldBindEmailCatchAllToWorker(
-	env?: Pick<CloudflareEnv, "MAILFLARE_RUNTIME">,
+	env?: Pick<CloudflareEnv, "OPEN_INBOX_RUNTIME">,
 ): boolean {
 	return !isNodeRuntime(env);
 }

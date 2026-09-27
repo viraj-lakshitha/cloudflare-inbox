@@ -26,7 +26,7 @@ async function main() {
 	const dev = process.env.NODE_ENV !== "production";
 	const runtime = createNodeRuntime();
 	const { env } = runtime;
-	globalThis.__mailflareNodeEnv = env;
+	globalThis.__openInboxNodeEnv = env;
 
 	const migrated = await applyMigrations(runtime.database, resolve(process.env.MIGRATIONS_DIR ?? join(process.cwd(), "drizzle", "migrations")));
 	if (migrated.length) console.log(`Applied ${migrated.length} migration(s): ${migrated.join(", ")}`);

@@ -1,9 +1,9 @@
-const SIDEBAR_MINIMAL_STORAGE_KEY = "mailflare-sidebar-minimal";
+const SIDEBAR_MINIMAL_STORAGE_KEY = "open-inbox-sidebar-minimal";
 
 export const sidebarBootstrapScript = `(() => {
 	try {
-		const minimalKey = "mailflare-sidebar-minimal";
-		const widthKey = "mailflare-column-width:sidebar";
+		const minimalKey = "open-inbox-sidebar-minimal";
+		const widthKey = "open-inbox-column-width:sidebar";
 		let minimal = localStorage.getItem(minimalKey);
 		let width = localStorage.getItem(widthKey);
 		if (minimal === null) {

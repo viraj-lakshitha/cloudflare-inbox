@@ -4,9 +4,11 @@
  * a single source of truth for what the message says.
  */
 
-export const QUOTE_ATTRIBUTE = "data-mailflare-quote";
-const QUOTE_OPEN = `<div class="mailflare-quote" ${QUOTE_ATTRIBUTE}="1">`;
-const SIGNATURE_ATTRIBUTE = "data-mailflare-signature";
+export const QUOTE_ATTRIBUTE = "data-open-inbox-quote";
+const QUOTE_OPEN = `<div class="open-inbox-quote" ${QUOTE_ATTRIBUTE}="1">`;
+/** The marker bodies stored before the rename carry; still folded when read. */
+const LEGACY_QUOTE_OPEN = `<div class="mailflare-quote" data-mailflare-quote="1">`;
+const SIGNATURE_ATTRIBUTE = "data-open-inbox-signature";
 
 export function escapeHtml(value: string): string {
 	return value
@@ -31,9 +33,10 @@ export function wrapQuotedHtml(inner: string): string {
 /** Split a stored HTML body into the editable part and the folded quote, if any. */
 export function splitQuotedHtml(html: string | null | undefined): { body: string; quoted: string | null } {
 	const value = html ?? "";
-	const index = value.indexOf(QUOTE_OPEN);
+	const open = value.includes(QUOTE_OPEN) ? QUOTE_OPEN : LEGACY_QUOTE_OPEN;
+	const index = value.indexOf(open);
 	if (index < 0) return { body: value, quoted: null };
-	const inner = value.slice(index + QUOTE_OPEN.length).replace(/<\/div>\s*$/, "");
+	const inner = value.slice(index + open.length).replace(/<\/div>\s*$/, "");
 	return { body: value.slice(0, index), quoted: inner };
 }
 

@@ -31,4 +31,4 @@ export default nextConfig;
 // runtime provides its own env, so it skips this.
 // See https://opennext.js.org/cloudflare/bindings#local-access-to-bindings.
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
-if (process.env.MAILFLARE_RUNTIME !== "node") initOpenNextCloudflareForDev({ configPath: createDevWranglerConfig() });
+if (process.env.OPEN_INBOX_RUNTIME !== "node") initOpenNextCloudflareForDev({ configPath: createDevWranglerConfig() });

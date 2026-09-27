@@ -5,15 +5,15 @@
  * the same way.
  */
 declare global {
-	var __mailflareNodeEnv: CloudflareEnv | undefined;
+	var __openInboxNodeEnv: CloudflareEnv | undefined;
 }
 
 export function getNodeEnv(): CloudflareEnv | undefined {
-	return globalThis.__mailflareNodeEnv;
+	return globalThis.__openInboxNodeEnv;
 }
 
-export function isNodeRuntime(env?: Pick<CloudflareEnv, "MAILFLARE_RUNTIME">): boolean {
-	return (env ?? getNodeEnv())?.MAILFLARE_RUNTIME === "node";
+export function isNodeRuntime(env?: Pick<CloudflareEnv, "OPEN_INBOX_RUNTIME">): boolean {
+	return (env ?? getNodeEnv())?.OPEN_INBOX_RUNTIME === "node";
 }
 
 /** True when the app can talk to the Cloudflare API to manage zones and routing. */

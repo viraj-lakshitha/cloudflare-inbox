@@ -18,16 +18,16 @@ export async function POST(request: Request) {
 
 	const raw = await request.arrayBuffer();
 	if (raw.byteLength > 25 * 1024 * 1024) return NextResponse.json({ error: "Message too large" }, { status: 413 });
-	const from = request.headers.get("x-mailflare-from") ?? "";
-	const to = request.headers.get("x-mailflare-to") ?? "";
-	const signature = request.headers.get("x-mailflare-signature") ?? "";
+	const from = request.headers.get("x-open-inbox-from") ?? "";
+	const to = request.headers.get("x-open-inbox-to") ?? "";
+	const signature = request.headers.get("x-open-inbox-signature") ?? "";
 	if (!from || !to || !(await verifyInboundSignature(secret, signature, raw, from, to))) {
 		return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
 	}
 
 	let headers: Record<string, string> = {};
 	try {
-		headers = JSON.parse(request.headers.get("x-mailflare-headers") ?? "{}") as Record<string, string>;
+		headers = JSON.parse(request.headers.get("x-open-inbox-headers") ?? "{}") as Record<string, string>;
 	} catch {
 		// The header map is advisory; the raw message is authoritative.
 	}

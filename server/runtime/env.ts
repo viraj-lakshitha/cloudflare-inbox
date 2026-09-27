@@ -1,4 +1,4 @@
-import { mkdirSync } from "node:fs";
+import { existsSync, mkdirSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { openFileBucket } from "./file-bucket";
 import { openMailer, type Mailer, type MailerConfig } from "./mailer";
@@ -31,12 +31,14 @@ export function createNodeRuntime(): NodeRuntime {
 	const dataDir = resolve(optional("DATA_DIR") ?? "./data");
 	mkdirSync(join(dataDir, "blobs"), { recursive: true });
 
-	const database = openSqliteDatabase(join(dataDir, "mailflare.sqlite"));
+	// Data directories created before the rename keep their original file name.
+	const legacyDatabasePath = join(dataDir, "mailflare.sqlite");
+	const database = openSqliteDatabase(existsSync(legacyDatabasePath) ? legacyDatabasePath : join(dataDir, "open-inbox.sqlite"));
 	const bucket = openFileBucket(join(dataDir, "blobs"));
 	const mailer = openMailer(mailerConfig());
-	const inboundQueue = openQueue("mailflare-inbound");
-	const outboundQueue = openQueue("mailflare-outbound");
-	const agentQueue = openQueue("mailflare-agent");
+	const inboundQueue = openQueue("open-inbox-inbound");
+	const outboundQueue = openQueue("open-inbox-outbound");
+	const agentQueue = openQueue("open-inbox-agent");
 	const realtime = new RealtimeHubRegistry();
 	const publicDir = resolve(optional("PUBLIC_DIR") ?? "./public");
 
@@ -64,7 +66,7 @@ export function createNodeRuntime(): NodeRuntime {
 		GITHUB_UPDATE_REF: optional("GITHUB_UPDATE_REF"),
 		GITHUB_UPDATE_REPO: optional("GITHUB_UPDATE_REPO"),
 		// Marks the runtime for the few places that must behave differently.
-		MAILFLARE_RUNTIME: "node",
+		OPEN_INBOX_RUNTIME: "node",
 		APP_URL: optional("APP_URL")?.replace(/\/$/, ""),
 		INBOUND_WEBHOOK_SECRET: optional("INBOUND_WEBHOOK_SECRET"),
 	} as unknown as CloudflareEnv;

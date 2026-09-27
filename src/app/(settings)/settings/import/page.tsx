@@ -111,7 +111,7 @@ export default function SettingsImportPage() {
           }),
       );
       setFileResult(result);
-      window.dispatchEvent(new Event("mailflare:messages-changed"));
+      window.dispatchEvent(new Event("open-inbox:messages-changed"));
     } catch (error) {
       setFileError(
         error instanceof Error ? error.message : "File import failed",
@@ -172,7 +172,7 @@ export default function SettingsImportPage() {
       }
       setImapResult(total);
       setImapForm((current) => ({ ...current, password: "" }));
-      window.dispatchEvent(new Event("mailflare:messages-changed"));
+      window.dispatchEvent(new Event("open-inbox:messages-changed"));
     } catch (error) {
       setImapError(
         error instanceof Error ? error.message : "IMAP import failed",

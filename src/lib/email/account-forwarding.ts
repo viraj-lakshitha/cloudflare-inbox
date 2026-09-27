@@ -5,7 +5,7 @@ import { getEmailAddress } from "@/lib/email/address";
 import { resolveInboundAddress } from "@/lib/email/routing";
 import { getLicenseEntitlements } from "@/lib/licenses/service";
 
-export const MAILFLARE_FORWARDED_HEADER = "X-Mailflare-Forwarded";
+export const OPEN_INBOX_FORWARDED_HEADER = "X-Open-Inbox-Forwarded";
 
 export async function getAccountForwardingDestination(
 	env: CloudflareEnv,

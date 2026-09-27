@@ -294,7 +294,7 @@ export function ComposeForm({
 
 		if (draftId) {
 			void authFetch(`/api/drafts/${draftId}`, { method: "DELETE" }).finally(() => {
-				window.dispatchEvent(new Event("mailflare:messages-changed"));
+				window.dispatchEvent(new Event("open-inbox:messages-changed"));
 			});
 		}
 		setDraftId(null);
@@ -311,7 +311,7 @@ export function ComposeForm({
 		setAttachments([]);
 		setScheduledAt(null);
 		setToast({ type: "success", message: data.scheduled ? "Message scheduled" : "Message sent" });
-		window.dispatchEvent(new Event("mailflare:messages-changed"));
+		window.dispatchEvent(new Event("open-inbox:messages-changed"));
 	}
 
 	async function deleteDraftAndClose() {
@@ -341,7 +341,7 @@ export function ComposeForm({
 		setQuotedHtml(null);
 		setAttachments([]);
 		setScheduledAt(null);
-		window.dispatchEvent(new Event("mailflare:messages-changed"));
+		window.dispatchEvent(new Event("open-inbox:messages-changed"));
 
 		if (onClose) {
 			onClose();

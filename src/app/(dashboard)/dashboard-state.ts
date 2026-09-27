@@ -28,7 +28,7 @@ export function useDashboardState() {
 			if (!response.ok) return;
 			const data = await response.json() as { user?: { id?: string } };
 			if (cancelled || !data.user?.id) return;
-			const prefix = `mailflare-dashboard:${data.user.id}`;
+			const prefix = `open-inbox-dashboard:${data.user.id}`;
 			try {
 				const savedOpen = localStorage.getItem(`${prefix}:assistant-open`);
 				const savedFullSize = localStorage.getItem(`${prefix}:assistant-full-size`);

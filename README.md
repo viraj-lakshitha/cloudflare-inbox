@@ -4,14 +4,14 @@
 
 Open Inbox is a self-hosted email inbox for custom domains, built on Cloudflare.
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/hieunc229/mailflare)
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/viraj-lakshitha/open-inbox)
 
 ## Screenshots
 
 | ![Inbox](/screenshots/1.png)<br>Inbox | ![Manage domains](/screenshots/2.png)<br>Manage domains | ![Manage inboxes](/screenshots/3.png)<br>Manage inboxes |
 | --- | --- | --- |
 
-### Featured sponsors
+### Upstream Mailflare sponsors
 
 <a target="_blank" href="https://sequenzy.com/?ref=hieunc229/mailflare">
   <img height="80" src="/sponsors/sequenzy.png" alt="Sequenzy">

@@ -18,7 +18,7 @@
 	"services": [
 		{
 			"binding": "WORKER_SELF_REFERENCE",
-			"service": "mailflare",
+			"service": "cloudflare-inbox",
 		},
 	],
 	"durable_objects": {
@@ -83,30 +83,30 @@
 		"producers": [
 			{
 				"binding": "INBOUND_QUEUE",
-				"queue": "mailflare-inbound",
+				"queue": "cloudflare-inbox-inbound",
 			},
 			{
 				"binding": "OUTBOUND_QUEUE",
-				"queue": "mailflare-outbound",
+				"queue": "cloudflare-inbox-outbound",
 			},
 			{
 				"binding": "AGENT_QUEUE",
-				"queue": "mailflare-agent",
+				"queue": "cloudflare-inbox-agent",
 			},
 		],
 		"consumers": [
 			{
-				"queue": "mailflare-inbound",
+				"queue": "cloudflare-inbox-inbound",
 				"max_batch_size": 5,
 				"max_retries": 3,
 			},
 			{
-				"queue": "mailflare-outbound",
+				"queue": "cloudflare-inbox-outbound",
 				"max_batch_size": 5,
 				"max_retries": 3,
 			},
 			{
-				"queue": "mailflare-agent",
+				"queue": "cloudflare-inbox-agent",
 				"max_batch_size": 1,
 				"max_retries": 3,
 			},
